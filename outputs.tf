@@ -1,3 +1,7 @@
+output "api_management_openid_connect_providers_id" {
+  description = "Map of id values across all api_management_openid_connect_providers, keyed the same as var.api_management_openid_connect_providers"
+  value       = { for k, v in azurerm_api_management_openid_connect_provider.api_management_openid_connect_providers : k => v.id }
+}
 output "api_management_openid_connect_providers_api_management_name" {
   description = "Map of api_management_name values across all api_management_openid_connect_providers, keyed the same as var.api_management_openid_connect_providers"
   value       = { for k, v in azurerm_api_management_openid_connect_provider.api_management_openid_connect_providers : k => v.api_management_name }
