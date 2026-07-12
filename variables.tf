@@ -4,7 +4,11 @@ Map of api_management_openid_connect_providers, attributes below
 Required:
     - api_management_name
     - client_id
+    - client_id_key_vault_id (alternative to client_id - read from Key Vault instead)
+    - client_id_key_vault_secret_name (alternative to client_id - read from Key Vault instead)
     - client_secret
+    - client_secret_key_vault_id (alternative to client_secret - read from Key Vault instead)
+    - client_secret_key_vault_secret_name (alternative to client_secret - read from Key Vault instead)
     - display_name
     - metadata_endpoint
     - name
@@ -14,14 +18,18 @@ Optional:
 EOT
 
   type = map(object({
-    api_management_name = string
-    client_id           = string
-    client_secret       = string
-    display_name        = string
-    metadata_endpoint   = string
-    name                = string
-    resource_group_name = string
-    description         = optional(string)
+    api_management_name                 = string
+    client_id                           = string
+    client_id_key_vault_id              = optional(string)
+    client_id_key_vault_secret_name     = optional(string)
+    client_secret                       = string
+    client_secret_key_vault_id          = optional(string)
+    client_secret_key_vault_secret_name = optional(string)
+    display_name                        = string
+    metadata_endpoint                   = string
+    name                                = string
+    resource_group_name                 = string
+    description                         = optional(string)
   }))
   validation {
     condition = alltrue([
