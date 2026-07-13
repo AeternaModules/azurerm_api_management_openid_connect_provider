@@ -4,11 +4,11 @@ Map of api_management_openid_connect_providers, attributes below
 Required:
     - api_management_name
     - client_id
-    - client_id_key_vault_id (alternative to client_id - read from Key Vault instead)
-    - client_id_key_vault_secret_name (alternative to client_id - read from Key Vault instead)
+    - client_id_key_vault_id (optional, alternative to client_id)
+    - client_id_key_vault_secret_name (optional, alternative to client_id)
     - client_secret
-    - client_secret_key_vault_id (alternative to client_secret - read from Key Vault instead)
-    - client_secret_key_vault_secret_name (alternative to client_secret - read from Key Vault instead)
+    - client_secret_key_vault_id (optional, alternative to client_secret)
+    - client_secret_key_vault_secret_name (optional, alternative to client_secret)
     - display_name
     - metadata_endpoint
     - name
@@ -31,38 +31,6 @@ EOT
     resource_group_name                 = string
     description                         = optional(string)
   }))
-  validation {
-    condition = alltrue([
-      for k, v in var.api_management_openid_connect_providers : (
-        length(v.client_id) > 0
-      )
-    ])
-    error_message = "must not be empty"
-  }
-  validation {
-    condition = alltrue([
-      for k, v in var.api_management_openid_connect_providers : (
-        length(v.client_secret) > 0
-      )
-    ])
-    error_message = "must not be empty"
-  }
-  validation {
-    condition = alltrue([
-      for k, v in var.api_management_openid_connect_providers : (
-        length(v.display_name) > 0
-      )
-    ])
-    error_message = "must not be empty"
-  }
-  validation {
-    condition = alltrue([
-      for k, v in var.api_management_openid_connect_providers : (
-        length(v.metadata_endpoint) > 0
-      )
-    ])
-    error_message = "must not be empty"
-  }
   # --- Unconfirmed validation candidates, derived from azurerm_api_management_openid_connect_provider's provider source ---
   # Not auto-enabled: either a bespoke provider validator we can't safely translate,
   # or a path that crosses a list-typed block (needs its own for_each wrapping).
@@ -85,5 +53,17 @@ EOT
   #   source:    [from resourcegroups.ValidateName] !matched
   # path: api_management_name
   #   source:    [from validate.ApiManagementServiceName] !matched
+  # path: client_id
+  #   condition: length(value) > 0
+  #   message:   must not be empty
+  # path: client_secret
+  #   condition: length(value) > 0
+  #   message:   must not be empty
+  # path: display_name
+  #   condition: length(value) > 0
+  #   message:   must not be empty
+  # path: metadata_endpoint
+  #   condition: length(value) > 0
+  #   message:   must not be empty
 }
 
